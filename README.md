@@ -18,19 +18,19 @@ In Sweet Stacker, players will immerse themselves as the main character named Sc
 The main character of the game is a dog named Scoopy! Scoopy is a well-trained pup with a sweet tooth bigger than himself. He is an icy white dog with a big nose for balencing his favorite treats. Our beloved main character is equiped with a nice collar and a big tail.
 
 ### Sketch of Main Character
-***
+![MainCharacterSketch](https://github.com/morganlawrence/Sweets-Stacker/assets/113194663/ee494d7a-453d-4335-ba82-a53edc4a5a01)
 
 ### Opponents
 In this game, the player must evade all opponents. The opponents consist of a waffle cone (only after it hits the ground), hot chilli peppers, moldy marshmallows, barbecue sauce, and dill pickles.
 
 ### Sketch of Opponents
-***
+![OpponentsSketch](https://github.com/morganlawrence/Sweets-Stacker/assets/113194663/389d8647-0151-4606-a48c-ccc3cafe1f64)
 
 ### Environments
 The environment of Sweet Stacker is very bright, colourful and cartoonish. The atmosphere of the game is very lighthearted and playable for everyone. The backdrop being played consists of past ice cream scoops that have fallen and now resemble mountains behind the player. 
 
 ### Sketch of World
-***
+![EnviromentSketch](https://github.com/morganlawrence/Sweets-Stacker/assets/113194663/d2ece870-32a6-49e6-af01-cae8e3011999)
 
 ### Menus
 One menu will be implemented for Sweet Stacker. This menu will be accessed upon loading into the game, and after an unsuccessful playthrough, the player will be sent back to this main menu as well. On this menu, players will have the option to play or quit the game. There will be background music here, as well as a simple background screen including the name of the game. 
