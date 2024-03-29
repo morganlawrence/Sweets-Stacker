@@ -1,0 +1,11 @@
+Sweets Stacker Prototype
+
+Collisions (Walls)
+Animations (Json / Sprites)
+Collecting Scoops (Collisions / Sprints / Entity Groups)
+All Menus Options
+Gravity Movement
+Assets (Music / Sounds)
+Grid
+
+Enemy Cones ???
