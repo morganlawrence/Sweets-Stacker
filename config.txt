@@ -19,6 +19,8 @@ Sound whine3		../assetsNew/Sounds/whine3.wav
 # Textures
 Texture BackgroundTest  	../assetsNew/Textures/UpdatedMountainBkg_02.png
 Texture BackgroundMenu  	../assetsNew/Textures/backgroundUpdated.png
+Texture	BackgroundControls	../assetsNew/Textures/backgroundControls.png
+Texture	BackgroundCredits	../assetsNew/Textures/backgroundCredits.png
 
 Texture gameUi			../assetsNew/Textures/gameUi.png	
 Texture	lives			../assetsNew/Textures/lives.png			

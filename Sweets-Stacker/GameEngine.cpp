@@ -145,7 +145,6 @@ void GameEngine::backLevel() {
 
 }
 
-
 sf::RenderWindow& GameEngine::window()
 {
 	return m_window;

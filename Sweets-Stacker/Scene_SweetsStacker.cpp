@@ -62,8 +62,8 @@ void Scene_SweetsStacker::sMovement(sf::Time dt) {
 
 		}
 	}
-	float lastCaughtY = 967.f; // Initialize with the initial position of the first caught scoop
 
+	float lastCaughtY = 967.f; // Initialize with the initial position of the first caught scoop
 
 	for (auto& e : m_entityManager.getEntities("playerNose")) {
 		if (e->hasComponent<CTransform>()) {

@@ -1,5 +1,8 @@
 #include "Scene_Menu.h"
 #include "Scene_SweetsStacker.h"
+#include "Scene_Controls.h"
+#include "Scene_Credits.h"
+
 #include <memory>
 #include "Physics.h"
 #include "MusicPlayer.h"
@@ -38,11 +41,11 @@ void Scene_Menu::init()
 	m_menuStrings.push_back("Start Game");
 	m_levelPaths.push_back("../assetsNew/level1.txt");
 
-	m_menuStrings.push_back("Settings");
-	m_levelPaths.push_back("../assetsNew/level1.txt");
+	m_menuStrings.push_back("Controls");
+	m_levelPaths.push_back("../assetsNew/level2.txt");
 
 	m_menuStrings.push_back("Credits");
-	m_levelPaths.push_back("../assetsNew/level1.txt");
+	m_levelPaths.push_back("../assetsNew/level3.txt");
 
 	// Title Text
 	m_menuTitle.setFont(Assets::getInstance().getFont("Menu"));
@@ -126,9 +129,29 @@ void Scene_Menu::sDoAction(const Command& action)
 		{
 			m_menuIndex = (m_menuIndex + 1) % m_menuStrings.size();
 		}
+		//else if (action.name() == "PLAY" && m_menuIndex == 0)
+		//{
+		//	m_game->changeScene("PLAY", std::make_shared<Scene_SweetsStacker>(m_game, m_levelPaths[m_menuIndex]));
+		//}
+		//else if (action.name() == "PLAY" && m_menuIndex == 1)
+		//{
+		//	m_game->changeScene("PLAY", std::make_shared<Scene_Controls>(m_game, m_levelPaths[m_menuIndex]));
+		//}
+		//else if (action.name() == "PLAY" && m_menuIndex == 2)
+		//{
+		//	m_game->changeScene("PLAY", std::make_shared<Scene_Controls>(m_game, m_levelPaths[m_menuIndex]));
+		//}
 		else if (action.name() == "PLAY")
 		{
-			m_game->changeScene("PLAY", std::make_shared<Scene_SweetsStacker>(m_game, m_levelPaths[m_menuIndex]));
+			if (m_menuIndex == 0) {
+				m_game->changeScene("PLAY", std::make_shared<Scene_SweetsStacker>(m_game, m_levelPaths[m_menuIndex]));
+			}
+			else if (m_menuIndex == 1) {
+				m_game->changeScene("PLAY", std::make_shared<Scene_Controls>(m_game, m_levelPaths[m_menuIndex]));
+			}
+			else if (m_menuIndex == 2) {
+				m_game->changeScene("PLAY", std::make_shared<Scene_Credits>(m_game, m_levelPaths[m_menuIndex]));
+			}
 		}
 		else if (action.name() == "QUIT")
 		{

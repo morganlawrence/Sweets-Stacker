@@ -1,0 +1,5 @@
+# Level 2
+
+World 800 1200
+
+BkgControls BackgroundControls 0 0

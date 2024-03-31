@@ -30,6 +30,8 @@
     <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scene_Controls.h" />
+    <ClInclude Include="Scene_Credits.h" />
     <ClInclude Include="Scene_Menu.h" />
     <ClInclude Include="Scene_SweetsStacker.h" />
     <ClInclude Include="SoundPlayer.h" />
@@ -46,6 +48,8 @@
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scene_Controls.cpp" />
+    <ClCompile Include="Scene_Credits.cpp" />
     <ClCompile Include="Scene_Menu.cpp" />
     <ClCompile Include="Scene_SweetsStacker.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />

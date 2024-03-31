@@ -1,0 +1,5 @@
+# Level 3
+
+World 800 1200
+
+BkgCredits BackgroundCredits	0 0
