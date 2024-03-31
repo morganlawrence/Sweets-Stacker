@@ -1,0 +1,8 @@
+# Level 0
+
+World 800 1200
+
+BkgMenu BackgroundMenu 0 0
+
+#     gX, gY, cW, cH, sX, sY,  sM,  g,  
+#Player 2   2  40  60   5  20  20  0.75 

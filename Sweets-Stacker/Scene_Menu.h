@@ -10,11 +10,12 @@ private:
 	std::vector<std::string>	m_menuStrings;
 	sf::Text					m_menuText;
 	sf::Text					m_menuTitle;
+	sf::Text					m_menuFooter;
 	std::vector<std::string>	m_levelPaths;
 	int							m_menuIndex{ 0 };
 	std::string					m_title;
 	sf::View					m_worldView;
-
+	sf::Vector2f			m_menuTextPosition;
 
 
 	void						registerActions();

@@ -21,14 +21,19 @@ class Scene_SweetsStacker : public Scene
         float SPEED{ 0.f }, MAXSPEED{ 0.f }, JUMP{ 0.f }, GRAVITY{ 0.f };
     };
 private:
-    PlayerConfig	m_playerConfig;
+    PlayerConfig	    m_playerConfig;
     PlayerNoseConfig	m_playerNoseConfig;
 
-    std::shared_ptr<Entity>		m_player;
-    std::shared_ptr<Entity>		m_playerNose;
+    std::shared_ptr<Entity>		            m_player;
+    std::shared_ptr<Entity>		            m_playerNose;
+    std::vector<std::shared_ptr<Entity>>    m_entity;
 
     sf::View        m_worldView;
     sf::FloatRect   m_worldBounds;
+    std::string     m_spriteName;
+   // std::string     m_flavor;
+
+    int             m_lives{3};
 
     bool			m_drawTextures{ true };
     bool			m_drawAABB{ false };
@@ -39,7 +44,9 @@ private:
     void            sCollisions();
     void            sUpdate(sf::Time dt);
     void            sAnimation(sf::Time dt);
-    void            sRespawnEntities();
+    void            sRespawnEntities(sf::Time dt);
+    void            sUpdateLifeSprites();
+    void            sRespawnLifeSprites();
 
     void	        onEnd() override;
 
@@ -52,6 +59,7 @@ private:
 
     void            spawnPlayer();
     void            spawnScoops(sf::Time dt);
+    void            spawnEnemies(sf::Time dt);
 
     void            init(const std::string& path);
     void            loadLevel(const std::string& path);

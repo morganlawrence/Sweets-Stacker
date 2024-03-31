@@ -10,28 +10,14 @@ void Scene_Menu::onEnd()
 
 Scene_Menu::Scene_Menu(GameEngine* gameEngine)
 	:Scene(gameEngine)
+	, m_worldView(gameEngine->window().getDefaultView())
 {
-	loadLevel("../assetsNew/level1.txt");
-	//registerActions();
+	loadLevel("../assetsNew/level0.txt");
+	registerActions();
 	init();
 }
 
 void Scene_Menu::registerActions() {
-
-}
-
-void Scene_Menu::init()
-{
-	/*m_title = "Frogger";
-	m_menuStrings.push_back("Play Game");
-
-	m_levelPaths.push_back("../assets/level1.txt");
-
-	m_menuText.setFont(Assets::getInstance().getFont("main"));
-
-	const size_t CHAR_SIZE{ 64 };
-	m_menuText.setCharacterSize(CHAR_SIZE);*/
-
 	registerAction(sf::Keyboard::W, "UP");
 	registerAction(sf::Keyboard::Up, "UP");
 	registerAction(sf::Keyboard::S, "DOWN");
@@ -39,29 +25,49 @@ void Scene_Menu::init()
 	registerAction(sf::Keyboard::D, "PLAY");
 	registerAction(sf::Keyboard::Escape, "QUIT");
 
+}
+
+void Scene_Menu::init()
+{
+	// Options Paths
 	m_menuStrings.push_back("Start Game");
-	m_levelPaths.push_back("../assets/level1.txt");
+	m_levelPaths.push_back("../assetsNew/level1.txt");
 
 	m_menuStrings.push_back("Settings");
-	m_levelPaths.push_back("../assets/level1.txt");
+	m_levelPaths.push_back("../assetsNew/level1.txt");
 
 	m_menuStrings.push_back("Credits");
-	m_levelPaths.push_back("../assets/level1.txt");
+	m_levelPaths.push_back("../assetsNew/level1.txt");
 
-
+	// Title Text
 	m_menuTitle.setFont(Assets::getInstance().getFont("Menu"));
-	centerOrigin(m_menuTitle);
-	m_menuTitle.setPosition(/*m_game->window().getSize().x */ 300 / 2.f, 250);
-
-	m_menuTitle.setCharacterSize(80);
+	m_menuTitle.setCharacterSize(100);
 	m_menuTitle.setFillColor(sf::Color::White);
+	m_menuTitle.setString("Sweets Stacker");
 
+	centerOrigin(m_menuTitle);
+	m_menuTitle.setPosition(m_game->window().getSize().x / 2, 313);
 
+	// Options Text
+	float textWidth = m_menuText.getLocalBounds().width;
+	float textHeight = m_menuText.getLocalBounds().height;
+	m_menuTextPosition.x = m_game->window().getSize().x  / 2.f;
+	m_menuTextPosition.y = (m_game->window().getSize().y - m_menuStrings.size() * textHeight) / 2.f - 120;
+	
 	m_menuText.setFont(Assets::getInstance().getFont("Menu"));
+	m_menuText.setCharacterSize(60);
 
-	const size_t CHAR_SIZE{ 64 };
-	m_menuText.setCharacterSize(CHAR_SIZE);
+	centerOrigin(m_menuText);
+	m_menuText.setPosition(m_menuTextPosition);
 
+	// Footer Text
+	m_menuFooter.setFont(Assets::getInstance().getFont("main"));
+	m_menuFooter.setCharacterSize(20);
+	m_menuFooter.setFillColor(sf::Color::White);
+	m_menuFooter.setString("UP: W    DOWN: S   PLAY:D    QUIT: ESC");
+	
+	centerOrigin(m_menuFooter);
+	m_menuFooter.setPosition(m_game->window().getSize().x / 2.f, 800);
 }
 
 void Scene_Menu::update(sf::Time dt)
@@ -72,9 +78,7 @@ void Scene_Menu::update(sf::Time dt)
 
 void Scene_Menu::sRender()
 {
-	sf::View view = m_game->window().getView();
-	view.setCenter(m_game->window().getSize().x / 2.f, m_game->window().getSize().y / 2.f);
-	m_game->window().setView(view);
+	m_game->window().setView(m_worldView);
 
 	for (auto e : m_entityManager.getEntities("bkgMenu")) {
 		if (e->getComponent<CSprite>().has) {
@@ -83,46 +87,24 @@ void Scene_Menu::sRender()
 		}
 	}
 
-	m_menuTitle.setString("Sweets Stacker\n");
 	m_game->window().draw(m_menuTitle);
-
-
+	
+	// set m_menuText fill colour
 	static const sf::Color selectedColor(255, 255, 255);
 	static const sf::Color normalColor(0, 0, 0);
 
-	//static const sf::Color backgroundColor(100, 100, 255);
-
-	sf::Text footer("UP: W    DOWN: S   PLAY:D    QUIT: ESC",
-		Assets::getInstance().getFont("main"), 20);
-	footer.setFillColor(normalColor);
-	footer.setPosition(32, 700);
-
-	//m_game->window().clear(backgroundColor);
-
-	//m_menuText.setFillColor(normalColor);
-	//m_menuText.setString(m_title);
-	//m_menuText.setPosition(10, 10);
-	//m_game->window().draw(m_menuText);
-
-	// total height of menu strings
-	float totalMenuHeight = m_menuStrings.size() * m_menuText.getCharacterSize();
-
-	// starting position to center vertically
-	float startY = (m_game->window().getSize().y - totalMenuHeight) / 3.f;
-
-	for (size_t i{ 0 }; i < m_menuStrings.size(); ++i)
+	for (size_t i = 0; i < m_menuStrings.size(); ++i)
 	{
 		m_menuText.setFillColor((i == m_menuIndex ? selectedColor : normalColor));
-		//m_menuText.setPosition(275, 150 + (i+1) * 150);
 		m_menuText.setString(m_menuStrings.at(i));
-		m_menuText.setPosition((m_game->window().getSize().x - m_menuText.getLocalBounds().width) / 2.f,
-			startY + i * m_menuText.getCharacterSize() + (i + 1) * 40);
 
+		centerOrigin(m_menuText);
+		m_menuText.setPosition(m_menuTextPosition.x, m_menuTextPosition.y + i * m_menuText.getCharacterSize() * 1.75);
+		
 		m_game->window().draw(m_menuText);
 	}
 
-	m_game->window().draw(footer);
-	//m_game->window().display();
+	m_game->window().draw(m_menuFooter);
 
 }
 
@@ -142,8 +124,6 @@ void Scene_Menu::sDoAction(const Command& action)
 		else if (action.name() == "PLAY")
 		{
 			m_game->changeScene("PLAY", std::make_shared<Scene_SweetsStacker>(m_game, m_levelPaths[m_menuIndex]));
-			//m_game->changeScene("PLAY", std::make_shared<Scene_Frogger>(m_game));
-			//loadLevel(".. / assets / level1.txt");
 		}
 		else if (action.name() == "QUIT")
 		{

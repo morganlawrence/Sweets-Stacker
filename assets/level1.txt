@@ -4,5 +4,5 @@ World 800 1200
 Dog 	Dog			
 
 Bkg 	BackgroundTest 	0   0
-Ground	GroundTest	133 800
+Ui	gameUi		0   0
 

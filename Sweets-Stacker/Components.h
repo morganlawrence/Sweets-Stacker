@@ -76,14 +76,6 @@ struct CBoundingBox : public Component
     {}
 };
 
-//struct CState : public Component {
-//
-//    std::string state{"none"};
-//
-//    CState() = default;
-//    CState(const std::string& s) : state(s){}
-//
-//};
 struct CState : public Component
 {
     enum State {
@@ -101,33 +93,16 @@ struct CState : public Component
 
 };
 
-//struct CInput : public Component
-//{
-//    enum dirs {
-//        UP = 1 << 0,
-//        DOWN = 1 << 1,
-//        LEFT = 1 << 2,
-//        RIGHT = 1 << 3
-//    };
-//
-//    unsigned char dir{0};
-//
-//    CInput() = default;
-//};
+struct CFlavour : public Component {
+    bool STRAWBERRY{ false };
+    bool CHOCOLATE{ false };
+    bool VANILLA{ false };
+
+    bool ICECREAM{ false };
 
 
-//struct CInput : public Component
-//{
-//    bool up{ false };
-//    bool left{ false };
-//    bool right{ false };
-//    bool down{ false };
-//    bool shoot{ false };
-//    bool canShoot{ true };
-//    bool canJump{ true };
-//
-//    CInput() = default;
-//};
+    CFlavour() = default;
+};
 
 struct CInput : public Component
 {
@@ -140,6 +115,12 @@ struct CInput : public Component
     unsigned char dir{ 0 };
 
     CInput() = default;
+};
+
+struct CType : public Component {
+    bool DROPABLE{ false };
+    bool MENU{ false };
+    CType() = default;
 };
 
 #endif //BREAKOUT_COMPONENTS_H

@@ -1,9 +1,7 @@
 # Level 1
 
-World 800 1500
+World 800 1200
+Dog 	Dog			
 
-
-BkgMenu BackgroundMenu 0 0
-
-#     gX, gY, cW, cH, sX, sY,  sM,  g,  
-Player 2   2  40  60   5  20  20  0.75 
+Bkg 	BackgroundTest 	0   0
+Ui	gameUi		0   0

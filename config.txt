@@ -11,25 +11,47 @@ Music gameTheme         ../assets/Music/frogger.ogg
 Music missionTheme      ../assets/Music/tweener.ogg
 
 # Textures
-Texture BackgroundTest  	../assetsNew/Textures/UpdatedMountainBkg.png
-Texture BackgroundMenu  	../assetsNew/Textures/background.png
-Texture Background      	../assets/Textures/background.png
-Texture Title           	../assets/Textures/FroggerTitle.png
-Texture Entities        	../assets/Textures/FroggerAtlas.png
+Texture BackgroundTest  	../assetsNew/Textures/UpdatedMountainBkg_02.png
+Texture BackgroundMenu  	../assetsNew/Textures/backgroundUpdated.png
+
+Texture gameUi			../assetsNew/Textures/gameUi.png	
+Texture	lives			../assetsNew/Textures/lives.png			
+
 Texture DogR			../assetsNew/Textures/tempSpritePNG/scoopy_01.png
 Texture DogL			../assetsNew/Textures/tempSpritePNG/scoopyL_01.png
-Texture FallingChocolate        ../assetsNew/Textures/ChocolateDrop.png
-Texture FallingStrawberry        ../assetsNew/Textures/StrawberryDrop.png
 Texture ScoopyWalkR		../assetsNew/Textures/scoopy_walk_right_atlas.png
 Texture ScoopyWalkL		../assetsNew/Textures/scoopy_walk_left_atlas.png
 
+Texture FallingChocolate        ../assetsNew/Textures/ChocolateDrop.png
+Texture FallingStrawberry        ../assetsNew/Textures/StrawberryDrop.png
+Texture FallingVanilla       	../assetsNew/Textures/VanillaDrop.png
+Texture FallingPickle		../assetsNew/Textures/pickle.png
+Texture FallingPepper		../assetsNew/Textures/pepper.png
+Texture FallingFishBones	../assetsNew/Textures/fish.png
+
+Texture CaughtStrawberry	../assetsNew/Textures/StrawberryScoop.png
+Texture CaughtChocolate		../assetsNew/Textures/ChocolateScoop.png
+Texture CaughtVanilla		../assetsNew/Textures/VanillaScoop.png
+
 # Sprites	Name		Texture
-Sprite 		Background      Background   		0 0 800 1200
-Sprite 		Title           Title 			0 0 800 1200
+Sprtie		gameUi		gameUi			0 0 26 42	
+Sprite		lives		lives			0 0 0 0
+
 Sprite 		DogR		DogR			0 0 275 230
 Sprite 		DogL		DogL			0 0 275 230
+
 Sprite 		ChocolateDrop	FallingChocolate	0 0 100 100
 Sprite 		StrawberryDrop	FallingStrawberry	0 0 100 100
+Sprite 		VanillaDrop	FallingVanilla		0 0 0 0
+Sprite		Pickle		FallingPickle		0 0 0 0
+Sprite		Pepper		FallingPepper		0 0 0 0
+Sprite		FishBones	FallingFishBones	0 0 0 0
+
+Sprite		StrawberryScoop	CaughtStrawberry	0 0 0 0
+Sprite		ChocolateScoop	CaughtChocolate		0 0 0 0
+Sprite		VanillaScoop	CaughtVanilla		0 0 0 0
+
+
 #
 # SOUNDS
 
