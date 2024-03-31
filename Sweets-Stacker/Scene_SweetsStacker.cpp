@@ -5,7 +5,6 @@
 #include "Components.h"
 #include "Physics.h"
 #include "Utilities.h"
-#include "MusicPlayer.h"
 #include "Assets.h"
 #include "SoundPlayer.h"
 #include <random>
@@ -110,71 +109,13 @@ void Scene_SweetsStacker::sMovement(sf::Time dt) {
 					lastCaughtY = tfm.pos.y - 10; // update the last caught scoop pos
 				}
 			//}
-		}
-		
-
-		//for (auto& e : m_entityManager.getEntities("caughtStrawberry")) {
-		//	float dropBelow = lastCaughtY - 40.f; // Calculate the position below the last caught scoop
-
-		//	if (e->hasComponent<CTransform>()) {
-		//		auto& tfm = e->getComponent<CTransform>();
-
-		//		auto& playerTfm = m_player->getComponent<CTransform>();
-		//		tfm.pos = playerTfm.pos + sf::Vector2f(78, -45.f);
-
-		//		if (tfm.pos.y > dropBelow)
-		//			tfm.pos.y = dropBelow;
-
-		//		if (m_player->getComponent<CInput>().dir == 'L')
-		//			tfm.pos.x -= 157.f;
-
-		//		lastCaughtY = tfm.pos.y; // Update the last caught scoop position
-		//	}
-		//}
-
-		//for (auto& e : m_entityManager.getEntities("caughtChocolate")) {
-		//	float dropBelow = lastCaughtY - 40.f; // Calculate the position below the last caught scoop
-
-		//	if (e->hasComponent<CTransform>()) {
-		//		auto& tfm = e->getComponent<CTransform>();
-
-		//		auto& playerTfm = m_player->getComponent<CTransform>();
-		//		tfm.pos = playerTfm.pos + sf::Vector2f(78, -45.f);
-
-		//		if (tfm.pos.y > dropBelow)
-		//			tfm.pos.y = dropBelow;
-
-		//		if (m_player->getComponent<CInput>().dir == 'L')
-		//			tfm.pos.x -= 157.f;
-
-		//		lastCaughtY = tfm.pos.y; // Update the last caught scoop position
-		//	}
-		//}
-		//for (auto& e : m_entityManager.getEntities("caughtVanilla")) {
-		//	float dropBelow = lastCaughtY - 40.f; // Calculate the position below the last caught scoop
-
-		//	if (e->hasComponent<CTransform>()) {
-		//		auto& tfm = e->getComponent<CTransform>();
-
-		//		auto& playerTfm = m_player->getComponent<CTransform>();
-		//		tfm.pos = playerTfm.pos + sf::Vector2f(78, -45.f);
-
-		//		if (tfm.pos.y > dropBelow)
-		//			tfm.pos.y = dropBelow;
-
-		//		if (m_player->getComponent<CInput>().dir == 'L')
-		//			tfm.pos.x -= 157.f;
-
-		//		lastCaughtY = tfm.pos.y; // Update the last caught scoop position
-		//	}
-		//}
-	
+		}	
 }
 
 void Scene_SweetsStacker::registerActions() {
 	registerAction(sf::Keyboard::P, "PAUSE");
-	registerAction(sf::Keyboard::Escape, "BACK");
-	registerAction(sf::Keyboard::Q, "QUIT");
+	registerAction(sf::Keyboard::Escape, "QUIT");
+	registerAction(sf::Keyboard::Q, "BACK");
 	registerAction(sf::Keyboard::C, "TOGGLE_COLLISION");
 
 	registerAction(sf::Keyboard::A, "LEFT");
@@ -260,7 +201,6 @@ void Scene_SweetsStacker::sRender() {
 			m_game->window().draw(sprite);
 		}
 	}
-	
 
 	for (auto& e : m_entityManager.getEntities()) {
 		if (e->hasComponent<CAnimation>()) {
@@ -273,8 +213,7 @@ void Scene_SweetsStacker::sRender() {
 				m_game->window().draw(anim.getSprite());
 			}
 
-		}
-		else if(!e->getComponent<CType>().MENU) {
+		} else if(!e->getComponent<CType>().MENU) {
 			// draw sprite
 			auto& sprite = e->getComponent<CSprite>().sprite;
 			auto& tfm = e->getComponent<CTransform>();
@@ -307,6 +246,7 @@ void Scene_SweetsStacker::sRender() {
 				m_game->window().draw(sprite);
 			}
 		}
+
 		// draw bounding box
 		if (m_drawAABB) {
 			if (e->hasComponent<CBoundingBox>()) {
@@ -364,13 +304,15 @@ void Scene_SweetsStacker::sDoAction(const Command& action) {
 	else if (action.type() == "END") {
 		if (action.name() == "LEFT") {
 			m_player->removeComponent<CAnimation>();
-			m_player->getComponent<CInput>().LEFT = false;
 			m_player->addComponent<CSprite>(Assets::getInstance().getTexture("DogL")).sprite;
+			m_player->getComponent<CInput>().LEFT = false;
+
 		}
 		else if (action.name() == "RIGHT") {
 			m_player->removeComponent<CAnimation>();
-			m_player->getComponent<CInput>().RIGHT = false;
 			m_player->addComponent<CSprite>(Assets::getInstance().getTexture("DogR")).sprite;
+			m_player->getComponent<CInput>().RIGHT = false;
+
 		}
 		else if (action.name() == "JUMP") {
 			m_player->getComponent<CInput>().UP = false;
@@ -539,6 +481,57 @@ void Scene_SweetsStacker::spawnScoops(sf::Time dt) {
 	}
 }
 
+void Scene_SweetsStacker::spawnStrawberry() {
+	auto playerNose = m_entityManager.getEntities("playerNose");
+	for (auto pN : playerNose) {
+		auto caughtScoop = m_entityManager.addEntity("caughtStrawberry");
+		auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
+
+		auto [txtName, txtRect] = Assets::getInstance().getSprt("StrawberryScoop");
+		caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
+
+		auto& pntfm = pN->getComponent<CTransform>();
+		auto& cstfm = caughtScoop->getComponent<CTransform>();
+		caughtScoop->addComponent<CTransform>(pntfm);
+		m_entity.push_back(caughtScoop);
+
+	}
+}
+
+void Scene_SweetsStacker::spawnChocolate() {
+	auto playerNose = m_entityManager.getEntities("playerNose");
+	for (auto pN : playerNose) {
+		auto caughtScoop = m_entityManager.addEntity("caughtChocolate");
+		auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
+
+		auto [txtName, txtRect] = Assets::getInstance().getSprt("ChocolateScoop");
+		caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
+
+		auto& pntfm = pN->getComponent<CTransform>();
+		auto& cstfm = caughtScoop->getComponent<CTransform>();
+		caughtScoop->addComponent<CTransform>(pntfm);
+
+		m_entity.push_back(caughtScoop);
+	}
+}
+
+void Scene_SweetsStacker::spawnVanilla() {
+	auto playerNose = m_entityManager.getEntities("playerNose");
+	for (auto pN : playerNose) {
+		auto caughtScoop = m_entityManager.addEntity("caughtVanilla");
+		auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
+
+		auto [txtName, txtRect] = Assets::getInstance().getSprt("VanillaScoop");
+		caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
+
+		auto& pntfm = pN->getComponent<CTransform>();
+		auto& cstfm = caughtScoop->getComponent<CTransform>();
+		caughtScoop->addComponent<CTransform>(pntfm);
+
+		m_entity.push_back(caughtScoop);
+	}
+}
+
 sf::FloatRect Scene_SweetsStacker::getOutOfBounds() const
 {
 	auto center = m_worldView.getCenter();
@@ -609,6 +602,9 @@ void Scene_SweetsStacker::sUpdateLifeSprites() {
 	}
 }
 
+
+
+
 void Scene_SweetsStacker::sCollisions() {
 	//adjustPlayerPosition();
 
@@ -633,47 +629,51 @@ void Scene_SweetsStacker::sCollisions() {
 		for (auto i : iceCream) {
 			auto overlap = Physics::getOverlap(pN, i);
 			if (overlap.x > 0 and overlap.y > 0) {
+				SoundPlayer::getInstance().play("splat", m_player->getComponent<CTransform>().pos); // pos??
 				i->destroy();
-
+				
 				if (i->getComponent<CFlavour>().STRAWBERRY == true) {
-					auto caughtScoop = m_entityManager.addEntity("caughtStrawberry");
-					auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
-
-					auto [txtName, txtRect] = Assets::getInstance().getSprt("StrawberryScoop");
-					caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
-
-					auto& pntfm = pN->getComponent<CTransform>();
-					auto& cstfm = caughtScoop->getComponent<CTransform>();
-					caughtScoop->addComponent<CTransform>(pntfm);
-					
-					m_entity.push_back(caughtScoop);
+					//auto caughtScoop = m_entityManager.addEntity("caughtStrawberry");
+					//auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
+					//
+					//auto [txtName, txtRect] = Assets::getInstance().getSprt("StrawberryScoop");
+					//caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
+					//
+					//auto& pntfm = pN->getComponent<CTransform>();
+					//auto& cstfm = caughtScoop->getComponent<CTransform>();
+					//caughtScoop->addComponent<CTransform>(pntfm);
+					//
+					//m_entity.push_back(caughtScoop);
+					spawnStrawberry();
 				}
 				else if (i->getComponent<CFlavour>().CHOCOLATE == true) {
-					auto caughtScoop = m_entityManager.addEntity("caughtChocolate");
-					auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
-
-					auto [txtName, txtRect] = Assets::getInstance().getSprt("ChocolateScoop");
-					caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
-
-					auto& pntfm = pN->getComponent<CTransform>();
-					auto& cstfm = caughtScoop->getComponent<CTransform>();
-					caughtScoop->addComponent<CTransform>(pntfm);
-
-					m_entity.push_back(caughtScoop);
+					//auto caughtScoop = m_entityManager.addEntity("caughtChocolate");
+					//auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
+					//
+					//auto [txtName, txtRect] = Assets::getInstance().getSprt("ChocolateScoop");
+					//caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
+					//
+					//auto& pntfm = pN->getComponent<CTransform>();
+					//auto& cstfm = caughtScoop->getComponent<CTransform>();
+					//caughtScoop->addComponent<CTransform>(pntfm);
+					//
+					//m_entity.push_back(caughtScoop);
+					spawnChocolate();
 
 				}
 				else if (i->getComponent<CFlavour>().VANILLA == true) {
-					auto caughtScoop = m_entityManager.addEntity("caughtVanilla");
-					auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
-
-					auto [txtName, txtRect] = Assets::getInstance().getSprt("VanillaScoop");
-					caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
-
-					auto& pntfm = pN->getComponent<CTransform>();
-					auto& cstfm = caughtScoop->getComponent<CTransform>();
-					caughtScoop->addComponent<CTransform>(pntfm);
-
-					m_entity.push_back(caughtScoop);
+					//auto caughtScoop = m_entityManager.addEntity("caughtVanilla");
+					//auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
+					//
+					//auto [txtName, txtRect] = Assets::getInstance().getSprt("VanillaScoop");
+					//caughtScoop->addComponent<CSprite>(Assets::getInstance().getTexture(txtName), txtRect);
+					//
+					//auto& pntfm = pN->getComponent<CTransform>();
+					//auto& cstfm = caughtScoop->getComponent<CTransform>();
+					//caughtScoop->addComponent<CTransform>(pntfm);
+					//
+					//m_entity.push_back(caughtScoop);
+					spawnVanilla();
 				}
 
 			}
@@ -705,6 +705,19 @@ void Scene_SweetsStacker::sCollisions() {
 			auto overlap = Physics::getOverlap(pN, e);
 			if (overlap.x > 0 and overlap.y > 0) {
 
+				std::uniform_int_distribution<> dis(0, 2);
+				int randomBark = dis(rng);
+
+				if (randomBark == 0) {
+					SoundPlayer::getInstance().play("whine",  m_player->getComponent<CTransform>().pos);
+				}
+				else if(randomBark == 1) {
+					SoundPlayer::getInstance().play("whine2", m_player->getComponent<CTransform>().pos);
+				}
+				else {
+					SoundPlayer::getInstance().play("whine3", m_player->getComponent<CTransform>().pos);
+				}
+
 				e->destroy();
 				m_lives--;
 			}
@@ -733,13 +746,14 @@ void Scene_SweetsStacker::sUpdate(sf::Time dt) {
 }
 
 void Scene_SweetsStacker::onEnd() {
-	m_game->changeScene("MENU", nullptr, false);
+	//MusicPlayer::getInstance().setPaused("gameTheme");
+	m_game->quitLevel();
+	//m_game->changeScene("MENU", nullptr, false);
 	m_lives = 3;
 }
 
 void Scene_SweetsStacker::sRespawnLifeSprites() {
 	if (m_lives == 0) {
-		m_game->quitLevel();
 		onEnd();
 	}
 }

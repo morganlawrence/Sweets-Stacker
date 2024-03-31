@@ -10,6 +10,12 @@ Font 	Menu		../assetsNew/fonts/Honk.ttf
 Music gameTheme         ../assets/Music/frogger.ogg
 Music missionTheme      ../assets/Music/tweener.ogg
 
+#Sounds
+Sound splat		../assetsNew/Sounds/splat.wav
+Sound whine		../assetsNew/Sounds/whine.wav
+Sound whine2		../assetsNew/Sounds/whine2.wav
+Sound whine3		../assetsNew/Sounds/whine3.wav
+
 # Textures
 Texture BackgroundTest  	../assetsNew/Textures/UpdatedMountainBkg_02.png
 Texture BackgroundMenu  	../assetsNew/Textures/backgroundUpdated.png
@@ -63,5 +69,5 @@ JSON                    ../assetsNew/Textures/scoopy_walk_left_atlas.json
 #
 #  Animation    Name            	Texture     	 Speed   Repeats
 
-Animation        ScoopyWalkRight    	ScoopyWalkR	6        no
-Animation	 ScoopyWalkLeft		ScoopyWalkL     6        no
+Animation        ScoopyWalkRight    	ScoopyWalkR	  12      no
+Animation	 ScoopyWalkLeft		ScoopyWalkL       12     no

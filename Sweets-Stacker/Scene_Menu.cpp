@@ -2,6 +2,8 @@
 #include "Scene_SweetsStacker.h"
 #include <memory>
 #include "Physics.h"
+#include "MusicPlayer.h"
+
 
 void Scene_Menu::onEnd()
 {
@@ -15,6 +17,9 @@ Scene_Menu::Scene_Menu(GameEngine* gameEngine)
 	loadLevel("../assetsNew/level0.txt");
 	registerActions();
 	init();
+
+	MusicPlayer::getInstance().play("gameTheme");
+	MusicPlayer::getInstance().setVolume(10);
 }
 
 void Scene_Menu::registerActions() {

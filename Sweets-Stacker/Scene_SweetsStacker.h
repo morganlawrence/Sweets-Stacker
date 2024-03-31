@@ -60,6 +60,9 @@ private:
     void            spawnPlayer();
     void            spawnScoops(sf::Time dt);
     void            spawnEnemies(sf::Time dt);
+    void            spawnStrawberry();
+    void            spawnChocolate();
+    void            spawnVanilla();
 
     void            init(const std::string& path);
     void            loadLevel(const std::string& path);
