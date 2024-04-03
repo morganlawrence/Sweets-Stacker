@@ -3,5 +3,6 @@
 World 800 1200
 Dog 	Dog			
 
-Bkg 	BackgroundTest 	0   0
-Ui	gameUi		0   0
+Bkg 		BackgroundTest 	0   0
+Ui		gameUi		0   0
+Paused 		PausedScreen	0   0

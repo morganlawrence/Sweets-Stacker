@@ -15,7 +15,7 @@ private:
 	int							m_menuIndex{ 0 };
 	std::string					m_title;
 	sf::View					m_worldView;
-	sf::Vector2f			m_menuTextPosition;
+	sf::Vector2f				m_menuTextPosition;
 
 
 	void						registerActions();

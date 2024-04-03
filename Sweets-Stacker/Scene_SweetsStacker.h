@@ -34,6 +34,9 @@ private:
    // std::string     m_flavor;
 
     int             m_lives{3};
+    int             m_level{ 0 };
+    int             m_prevLevel{ 0 };
+    sf::Vector2f    m_levelSpeed{0.f,100.f};
 
     bool			m_drawTextures{ true };
     bool			m_drawAABB{ false };
@@ -47,6 +50,8 @@ private:
     void            sRespawnEntities(sf::Time dt);
     void            sUpdateLifeSprites();
     void            sRespawnLifeSprites();
+    void            sLifespan(sf::Time dt);
+    void            sCheckLevel();
 
     void	        onEnd() override;
 
@@ -60,9 +65,14 @@ private:
     void            spawnPlayer();
     void            spawnScoops(sf::Time dt);
     void            spawnEnemies(sf::Time dt);
+    void            spawnCones(sf::Time dt);
+
+    void            spawnEntities(sf::Time dt, const std::string& entityType, float spawnInterval);
+
     void            spawnStrawberry();
     void            spawnChocolate();
     void            spawnVanilla();
+    void            clearStack();
 
     void            init(const std::string& path);
     void            loadLevel(const std::string& path);

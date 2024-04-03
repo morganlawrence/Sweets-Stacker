@@ -15,12 +15,14 @@ Sound splat		../assetsNew/Sounds/splat.wav
 Sound whine		../assetsNew/Sounds/whine.wav
 Sound whine2		../assetsNew/Sounds/whine2.wav
 Sound whine3		../assetsNew/Sounds/whine3.wav
+Sound lick		../assetsNew/Sounds/lick.wav
 
 # Textures
 Texture BackgroundTest  	../assetsNew/Textures/UpdatedMountainBkg_02.png
 Texture BackgroundMenu  	../assetsNew/Textures/backgroundUpdated.png
 Texture	BackgroundControls	../assetsNew/Textures/backgroundControls.png
 Texture	BackgroundCredits	../assetsNew/Textures/backgroundCredits.png
+Texture PausedScreen		../assetsNew/Textures/PauseScreen.png
 
 Texture gameUi			../assetsNew/Textures/gameUi.png	
 Texture	lives			../assetsNew/Textures/lives.png			
@@ -30,8 +32,9 @@ Texture DogL			../assetsNew/Textures/tempSpritePNG/scoopyL_01.png
 Texture ScoopyWalkR		../assetsNew/Textures/scoopy_walk_right_atlas.png
 Texture ScoopyWalkL		../assetsNew/Textures/scoopy_walk_left_atlas.png
 
+Texture FallingCone		../assetsNew/Textures/cone.png
 Texture FallingChocolate        ../assetsNew/Textures/ChocolateDrop.png
-Texture FallingStrawberry        ../assetsNew/Textures/StrawberryDrop.png
+Texture FallingStrawberry       ../assetsNew/Textures/StrawberryDrop.png
 Texture FallingVanilla       	../assetsNew/Textures/VanillaDrop.png
 Texture FallingPickle		../assetsNew/Textures/pickle.png
 Texture FallingPepper		../assetsNew/Textures/pepper.png
@@ -48,6 +51,7 @@ Sprite		lives		lives			0 0 0 0
 Sprite 		DogR		DogR			0 0 275 230
 Sprite 		DogL		DogL			0 0 275 230
 
+Sprite		ConeDrop	FallingCone		0 0 0 0
 Sprite 		ChocolateDrop	FallingChocolate	0 0 100 100
 Sprite 		StrawberryDrop	FallingStrawberry	0 0 100 100
 Sprite 		VanillaDrop	FallingVanilla		0 0 0 0
