@@ -33,6 +33,12 @@ private:
     std::string     m_spriteName;
    // std::string     m_flavor;
 
+    int             m_score{ 0 };
+    sf::Text        m_score_text;
+
+    int             m_end_score;
+    sf::Text        m_end_score_text;
+
     int             m_lives{3};
     int             m_level{ 0 };
     int             m_prevLevel{ 0 };
@@ -67,7 +73,7 @@ private:
     void            spawnEnemies(sf::Time dt);
     void            spawnCones(sf::Time dt);
 
-    void            spawnEntities(sf::Time dt, const std::string& entityType, float spawnInterval);
+    //void            spawnEntities(sf::Time dt, const std::string& entityType, float spawnInterval);
 
     void            spawnStrawberry();
     void            spawnChocolate();

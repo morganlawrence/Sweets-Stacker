@@ -1,0 +1,50 @@
+{ "frames": [
+   {
+    "filename": "scoopyDeathRight (1).png",
+    "frame": { "x": 0, "y": 0, "w": 214, "h": 169 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 214, "h": 169 },
+    "sourceSize": { "w": 214, "h": 169 },
+    "duration": 100
+   },
+   {
+    "filename": "scoopyDeathRight (2).png",
+    "frame": { "x": 214, "y": 0, "w": 214, "h": 169 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 214, "h": 169 },
+    "sourceSize": { "w": 214, "h": 169 },
+    "duration": 100
+   },
+   {
+    "filename": "scoopyDeathRight (3).png",
+    "frame": { "x": 428, "y": 0, "w": 214, "h": 169 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 214, "h": 169 },
+    "sourceSize": { "w": 214, "h": 169 },
+    "duration": 100
+   },
+   {
+    "filename": "scoopyDeathRight (4).png",
+    "frame": { "x": 642, "y": 0, "w": 214, "h": 169 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 214, "h": 169 },
+    "sourceSize": { "w": 214, "h": 169 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.x-dev",
+  "image": "scoopy_death_right_atlas.png",
+  "format": "RGBA8888",
+  "size": { "w": 856, "h": 169 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "scoopyDeathRight", "from": 0, "to": 3, "direction": "forward", "color": "#000000ff" }
+  ]
+ }
+}

@@ -6,3 +6,4 @@ Dog 	Dog
 Bkg 		BackgroundTest 	0   0
 Ui		gameUi		0   0
 Paused 		PausedScreen	0   0
+GameOver	EndScreen	0   0

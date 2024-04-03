@@ -78,19 +78,22 @@ struct CBoundingBox : public Component
 
 struct CState : public Component
 {
-    enum State {
-        isGrounded = 1,
-        isFacingLeft = 1 << 1,
-        isRunning = 1 << 2
-    };
-    unsigned int  state{ 0 };
+    //enum State {
+    //    isGrounded = 1,
+    //    isFacingLeft = 1 << 1,
+    //    isRunning = 1 << 2
+    //};
+    //unsigned int  state{ 0 };
+
+    //CState() = default;
+    //CState(unsigned int s) : state(s) {}
+    //bool test(unsigned int x) { return (state & x); }
+    //void set(unsigned int x) { state |= x; }
+    //void unSet(unsigned int x) { state &= ~x; }
+    std::string state{ "none" };
 
     CState() = default;
-    CState(unsigned int s) : state(s) {}
-    bool test(unsigned int x) { return (state & x); }
-    void set(unsigned int x) { state |= x; }
-    void unSet(unsigned int x) { state &= ~x; }
-
+    CState(const std::string& s) : state(s) {}
 };
 
 struct CFlavour : public Component {

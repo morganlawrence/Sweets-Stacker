@@ -29,8 +29,16 @@ Scene_SweetsStacker::Scene_SweetsStacker(GameEngine* gameEngine, const std::stri
 }
 
 void Scene_SweetsStacker::init(const std::string& path) {
+	m_score_text.setFont(Assets::getInstance().getFont("Score"));
+	//m_score_text.setPosition(40.f, 5.f);
+	m_score_text.setCharacterSize(60);
+	m_score_text.setFillColor(sf::Color::White);
 
+	m_end_score_text.setFont(Assets::getInstance().getFont("Score"));
+	m_end_score_text.setCharacterSize(60);
+	m_end_score_text.setFillColor(sf::Color::White);
 
+	
 }
 
 void Scene_SweetsStacker::sMovement(sf::Time dt) {
@@ -130,6 +138,9 @@ void Scene_SweetsStacker::registerActions() {
 }
 
 void Scene_SweetsStacker::playerMovement() {
+	// dont move if dead 
+	if (m_player->hasComponent<CState>() && m_player->getComponent<CState>().state == "dead")
+		return;
 
 	// player movement
 	auto& dir = m_player->getComponent<CInput>().dir;
@@ -166,13 +177,52 @@ void Scene_SweetsStacker::playerMovement() {
 
 }
 
-//void Scene_SweetsStacker::checkPlayerState() {
-//	auto& tx = m_player->getComponent<CTransform>();
-//	auto& state = m_player->getComponent<CState>();
-//
-//	if (std::abs(tx.vel.x) > 0.1f)
-//		tx.scale.x = (tx.vel.x > 0) ? 1 : -1;
-//}
+void Scene_SweetsStacker::checkPlayerState() {
+	auto& tx = m_player->getComponent<CTransform>();
+	auto& state = m_player->getComponent<CState>().state;
+
+	auto prevPos = tx.pos;
+
+	if (m_lives == 0) {
+		state = "dead";
+		m_player->removeComponent<CAnimation>();
+
+		switch (m_player->getComponent<CInput>().dir) {
+		case 'L':
+			m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("scoopyDeathLeft"));
+			break;
+		case 'R':
+			m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("scoopyDeathRight"));
+			break;
+		default:
+			break;
+		}
+
+		clearStack();
+		tx.pos.x = prevPos.x;
+		tx.pos.y = 990;
+		m_player->getComponent<CTransform>().vel = sf::Vector2f(0.f, 0.f); 
+		m_player->removeComponent<CBoundingBox>(); 
+		m_playerNose->removeComponent<CBoundingBox>();
+		m_player->getComponent<CState>().state;
+		std::cout << "\n";
+
+		std::cout << m_score;
+		std::cout << "\n";
+
+		std::cout << m_level;
+		std::cout << "\n";
+
+		std::cout << m_end_score;
+		std::cout << "\n";
+
+		std::cout << m_score * m_level;
+		std::cout << "\n";
+
+	}
+
+
+}
 
 void Scene_SweetsStacker::sAnimation(sf::Time dt) {
 	auto list = m_entityManager.getEntities();
@@ -186,6 +236,14 @@ void Scene_SweetsStacker::sAnimation(sf::Time dt) {
 			auto& tfm = e->getComponent<CTransform>();
 			anim.animation.getSprite().setPosition(tfm.pos);
 			anim.animation.getSprite().setRotation(tfm.angle);
+			auto dead = m_player->getComponent<CState>().state;
+			//m_player->getComponent<CAnimation>().animation.hasEnded("scoopyDeathLeft")
+			if (m_player->getComponent<CAnimation>().animation.hasEnded() &&
+				dead == "dead") {
+				m_player->destroy();
+
+				onEnd();
+			}
 		}
 	}
 }
@@ -215,17 +273,6 @@ void Scene_SweetsStacker::sRender() {
 				m_game->window().draw(anim.getSprite());
 			}
 
-			//if (e->hasComponent<CLifespan>()) {
-			//	auto& spriteComponent = e->getComponent<CSprite>();
-			//	auto& sprite = spriteComponent.sprite; 
-			//	auto& lifespan = e->getComponent<CLifespan>();
-
-			//	sf::Color fillColor = sprite.getColor();
-			//	fillColor.a = lifespan.remaining / lifespan.total * 255.0f;
-
-			//	sprite.setColor(fillColor);
-			//}
-
 		} else if(!e->getComponent<CType>().MENU) {
 			// draw sprite
 			auto& sprite = e->getComponent<CSprite>().sprite;
@@ -244,7 +291,14 @@ void Scene_SweetsStacker::sRender() {
 				auto& tfm = e->getComponent<CTransform>();
 
 				sprite.setPosition(26.f,42.f);
+				m_score_text.setPosition(180.f, 84.f);
+				centerOrigin(m_score_text);
+				std::string scoreString = std::to_string(m_score);
+				m_score_text.setString(scoreString);
+
 				m_game->window().draw(sprite);
+				m_game->window().draw(m_score_text);
+
 			}
 		}
 
@@ -286,6 +340,32 @@ void Scene_SweetsStacker::sRender() {
 				}
 			}
 		}
+
+		if (m_player->getComponent<CState>().state == "dead") {
+			for (auto e : m_entityManager.getEntities("endscreen")) {
+				if (e->getComponent<CSprite>().has) {
+					auto& sprite = e->getComponent<CSprite>().sprite;
+					auto& tfm = e->getComponent<CTransform>();
+
+					if (m_level >= 1) {
+						m_end_score = m_score * m_level;
+					}
+					else {
+						m_end_score = m_score;
+					}
+					std::string endScoreString = std::to_string(m_end_score);
+					m_end_score_text.setString(endScoreString);
+
+					sprite.setPosition(tfm.pos);
+					m_end_score_text.setPosition(400, 730);
+					centerOrigin(m_end_score_text);
+
+					m_game->window().draw(sprite);
+					m_game->window().draw(m_end_score_text);
+
+				}
+			}
+		}
 	}
 }
 
@@ -304,13 +384,13 @@ void Scene_SweetsStacker::sDoAction(const Command& action) {
 		else if (action.name() == "BACK") { m_game->backLevel(); }
 		else if (action.name() == "TOGGLE_COLLISION") { m_drawAABB = !m_drawAABB; }
 
-		else if (action.name() == "LEFT" && !m_isPaused) {
+		else if (action.name() == "LEFT" && !m_isPaused && m_player->getComponent<CState>().state != "dead") {
 			m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("ScoopyWalkLeft"));
 
 			m_player->getComponent<CInput>().LEFT = true;
 			m_player->getComponent<CInput>().dir = 'L';
 		}
-		else if (action.name() == "RIGHT" && !m_isPaused) {
+		else if (action.name() == "RIGHT" && !m_isPaused && m_player->getComponent<CState>().state != "dead") {
 			m_player->addComponent<CAnimation>(Assets::getInstance().getAnimation("ScoopyWalkRight"));
 
 			m_player->getComponent<CInput>().RIGHT = true;
@@ -327,13 +407,13 @@ void Scene_SweetsStacker::sDoAction(const Command& action) {
 
 	// on Key Release
 	else if (action.type() == "END") {
-		if (action.name() == "LEFT" && !m_isPaused) {
+		if (action.name() == "LEFT" && !m_isPaused && m_player->getComponent<CState>().state != "dead") {
 			m_player->removeComponent<CAnimation>();
 			m_player->addComponent<CSprite>(Assets::getInstance().getTexture("DogL")).sprite;
 			m_player->getComponent<CInput>().LEFT = false;
 
 		}
-		else if (action.name() == "RIGHT" && !m_isPaused) {
+		else if (action.name() == "RIGHT" && !m_isPaused && m_player->getComponent<CState>().state != "dead") {
 			m_player->removeComponent<CAnimation>();
 			m_player->addComponent<CSprite>(Assets::getInstance().getTexture("DogR")).sprite;
 			m_player->getComponent<CInput>().RIGHT = false;
@@ -372,6 +452,7 @@ void Scene_SweetsStacker::spawnPlayer() {
 	m_playerNose->addComponent<CTransform>(pos);
 
 	m_player->addComponent<CInput>();
+	m_player->addComponent<CState>();
 	m_player->getComponent<CInput>().dir = 'R';
 
 	auto& sprite = m_player->addComponent<CSprite>().sprite;
@@ -389,7 +470,7 @@ void Scene_SweetsStacker::spawnPlayer() {
 
 	m_playerNose->addComponent<CBoundingBox>(sf::Vector2f(32.f, 38.f));
 
-	std::cout << m_player->getComponent<CTransform>().pos.y;
+	//std::cout << m_player->getComponent<CTransform>().pos.y;
 }
 
 void Scene_SweetsStacker::spawnEnemies(sf::Time dt) {
@@ -439,7 +520,7 @@ void Scene_SweetsStacker::spawnEnemies(sf::Time dt) {
 
 		// position of spawned scoop
 		enemies->addComponent<CTransform>(spawnPos);
-		enemies->getComponent<CTransform>().vel = sf::Vector2f(0.f, 100.f);
+		enemies->getComponent<CTransform>().vel = sf::Vector2f(0.f, 200.f);
 
 		spawnTimer -= spawnInterval;
 	}
@@ -723,6 +804,7 @@ void Scene_SweetsStacker::sCollisions() {
 					SoundPlayer::getInstance().play("whine3", m_player->getComponent<CTransform>().pos);
 					c->destroy();
 					m_lives--;
+					checkPlayerState();
 
 				}
 			}
@@ -735,7 +817,8 @@ void Scene_SweetsStacker::sCollisions() {
 			if (overlap.x > 0 and overlap.y > 0) {
 				SoundPlayer::getInstance().play("splat", m_player->getComponent<CTransform>().pos); // pos??
 				i->destroy();
-				
+				m_score += 50;
+
 				if (i->getComponent<CFlavour>().STRAWBERRY == true) {
 					//auto caughtScoop = m_entityManager.addEntity("caughtStrawberry");
 					//auto& sprite = caughtScoop->addComponent<CSprite>().sprite;
@@ -824,21 +907,21 @@ void Scene_SweetsStacker::sCollisions() {
 		}
 	}
 
-	for (auto pN : playerNose) {
-		for (auto c : cone) {
-			auto overlap = Physics::getOverlap(pN, c);
-			if (overlap.x > 0 and overlap.y > 0) {
-				SoundPlayer::getInstance().play("lick", m_player->getComponent<CTransform>().pos);
+	if (!m_entity.empty()) {
+		for (auto pN : playerNose) {
+			for (auto c : cone) {
+				auto overlap = Physics::getOverlap(pN, c);
+				if (overlap.x > 0 and overlap.y > 0) {
+					SoundPlayer::getInstance().play("lick", m_player->getComponent<CTransform>().pos);
+					m_score += 100;
 
-				clearStack();
-				c->destroy();
-				std::cout << "collision level before: ";
-				std::cout << m_level;
-				std::cout << "\n";
-				std::cout << m_levelSpeed;
-				m_level++;
-			
+					clearStack();
+					c->destroy();
+					std::cout << m_levelSpeed;
+					m_level++;
 
+
+				}
 			}
 		}
 	}
@@ -863,6 +946,8 @@ void Scene_SweetsStacker::sCollisions() {
 
 				e->destroy();
 				m_lives--;
+				checkPlayerState();
+
 			}
 		}
 	}
@@ -915,7 +1000,7 @@ void Scene_SweetsStacker::onEnd() {
 
 void Scene_SweetsStacker::sRespawnLifeSprites() {
 	if (m_lives == 0) {
-		onEnd();
+	//	onEnd();
 	}
 }
 
@@ -1024,6 +1109,18 @@ void Scene_SweetsStacker::loadLevel(const std::string& path) {
 			sf::Vector2f pos;
 			config >> name >> pos.x >> pos.y;
 			auto e = m_entityManager.addEntity("pausescreen");
+			e->addComponent<CType>().MENU = true;
+			e->addComponent<CTransform>(pos);
+
+			auto& sprite = e->addComponent<CSprite>(Assets::getInstance().getTexture(name)).sprite;
+			sprite.setOrigin(0.f, 0.f);
+			sprite.setPosition(pos);
+		}
+		else if (token == "GameOver") {
+			std::string name;
+			sf::Vector2f pos;
+			config >> name >> pos.x >> pos.y;
+			auto e = m_entityManager.addEntity("endscreen");
 			e->addComponent<CType>().MENU = true;
 			e->addComponent<CTransform>(pos);
 

@@ -6,6 +6,7 @@ Font    Arial           ../assets/fonts/arial.ttf
 Font    main            ../assets/fonts/Sansation.ttf
 Font    Arcade          ../assets/fonts/arcadeclassic.regular.ttf
 Font 	Menu		../assetsNew/fonts/Honk.ttf
+Font    Score		../assetsNew/fonts/Bungee.ttf
 
 Music gameTheme         ../assets/Music/frogger.ogg
 Music missionTheme      ../assets/Music/tweener.ogg
@@ -23,6 +24,7 @@ Texture BackgroundMenu  	../assetsNew/Textures/backgroundUpdated.png
 Texture	BackgroundControls	../assetsNew/Textures/backgroundControls.png
 Texture	BackgroundCredits	../assetsNew/Textures/backgroundCredits.png
 Texture PausedScreen		../assetsNew/Textures/PauseScreen.png
+Texture EndScreen		../assetsNew/Textures/EndScreen.png
 
 Texture gameUi			../assetsNew/Textures/gameUi.png	
 Texture	lives			../assetsNew/Textures/lives.png			
@@ -31,6 +33,8 @@ Texture DogR			../assetsNew/Textures/tempSpritePNG/scoopy_01.png
 Texture DogL			../assetsNew/Textures/tempSpritePNG/scoopyL_01.png
 Texture ScoopyWalkR		../assetsNew/Textures/scoopy_walk_right_atlas.png
 Texture ScoopyWalkL		../assetsNew/Textures/scoopy_walk_left_atlas.png
+Texture ScoopyDeathL		../assetsNew/Textures/scoopy_death_left_atlas.png
+Texture ScoopyDeathR		../assetsNew/Textures/scoopy_death_right_atlas.png
 
 Texture FallingCone		../assetsNew/Textures/cone.png
 Texture FallingChocolate        ../assetsNew/Textures/ChocolateDrop.png
@@ -70,10 +74,13 @@ Sprite		VanillaScoop	CaughtVanilla		0 0 0 0
 
 JSON                    ../assetsNew/Textures/scoopy_walk_right_atlas.json
 JSON                    ../assetsNew/Textures/scoopy_walk_left_atlas.json
-
+JSON			../assetsNew/Textures/scoopy_death_left_atlas.json
+JSON			../assetsNew/Textures/scoopy_death_right_atlas.json
 
 #
 #  Animation    Name            	Texture     	 Speed   Repeats
 
-Animation        ScoopyWalkRight    	ScoopyWalkR	  12      no
-Animation	 ScoopyWalkLeft		ScoopyWalkL       12     no
+Animation       ScoopyWalkRight    	ScoopyWalkR	  12     no
+Animation	ScoopyWalkLeft		ScoopyWalkL       12     no
+Animation	scoopyDeathLeft		ScoopyDeathL	  1      no
+Animation	scoopyDeathRight	ScoopyDeathR	  1      no
