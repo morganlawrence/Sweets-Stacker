@@ -16,8 +16,10 @@ private:
 	std::string					m_title;
 	sf::View					m_worldView;
 	sf::Vector2f				m_menuTextPosition;
+	std::vector<bool>			m_main_menu;
 
 
+	void						mouseBb();
 	void						registerActions();
 	void						init();
 	void						loadLevel(const std::string& path);

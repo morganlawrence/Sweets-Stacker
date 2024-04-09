@@ -32,6 +32,7 @@ private:
     sf::FloatRect   m_worldBounds;
     std::string     m_spriteName;
    // std::string     m_flavor;
+    std::vector<bool> m_pause_menu;
 
     int             m_score{ 0 };
     sf::Text        m_score_text;
@@ -43,6 +44,8 @@ private:
     int             m_level{ 0 };
     int             m_prevLevel{ 0 };
     sf::Vector2f    m_levelSpeed{0.f,100.f};
+    bool            m_finishLineSpawned{false};
+    bool            m_finished{ false };
 
     bool			m_drawTextures{ true };
     bool			m_drawAABB{ false };
@@ -72,7 +75,7 @@ private:
     void            spawnScoops(sf::Time dt);
     void            spawnEnemies(sf::Time dt);
     void            spawnCones(sf::Time dt);
-
+    void            spawnFinsihline();
     //void            spawnEntities(sf::Time dt, const std::string& entityType, float spawnInterval);
 
     void            spawnStrawberry();

@@ -37,6 +37,7 @@ void Scene_Menu::registerActions() {
 
 void Scene_Menu::init()
 {
+
 	// Options Paths
 	m_menuStrings.push_back("Start Game");
 	m_levelPaths.push_back("../assetsNew/level1.txt");
@@ -54,7 +55,7 @@ void Scene_Menu::init()
 	m_menuTitle.setString("Sweets Stacker");
 
 	centerOrigin(m_menuTitle);
-	m_menuTitle.setPosition(m_game->window().getSize().x / 2, 313);
+	m_menuTitle.setPosition(m_game->window().getSize().x / 2, 333);
 
 	// Options Text
 	float textWidth = m_menuText.getLocalBounds().width;
@@ -64,7 +65,7 @@ void Scene_Menu::init()
 	
 	m_menuText.setFont(Assets::getInstance().getFont("Menu"));
 	m_menuText.setCharacterSize(60);
-
+	
 	centerOrigin(m_menuText);
 	m_menuText.setPosition(m_menuTextPosition);
 

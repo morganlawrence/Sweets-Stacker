@@ -21,13 +21,16 @@ Sound lick		../assetsNew/Sounds/lick.wav
 # Textures
 Texture BackgroundTest  	../assetsNew/Textures/UpdatedMountainBkg_02.png
 Texture BackgroundMenu  	../assetsNew/Textures/backgroundUpdated.png
-Texture	BackgroundControls	../assetsNew/Textures/backgroundControls.png
-Texture	BackgroundCredits	../assetsNew/Textures/backgroundCredits.png
+Texture	BackgroundControls	../assetsNew/Textures/backgroundctrls2.png
+Texture	BackgroundCredits	../assetsNew/Textures/backgroundCredits2.png
 Texture PausedScreen		../assetsNew/Textures/PauseScreen.png
 Texture EndScreen		../assetsNew/Textures/EndScreen.png
+Texture Quit			../assetsNew/Textures/Quit.png
+Texture Resume			../assetsNew/Textures/Resume.png
 
 Texture gameUi			../assetsNew/Textures/gameUi.png	
 Texture	lives			../assetsNew/Textures/lives.png			
+Texture FinishLine	        ../assetsNew/Textures/Finishline.png
 
 Texture DogR			../assetsNew/Textures/tempSpritePNG/scoopy_01.png
 Texture DogL			../assetsNew/Textures/tempSpritePNG/scoopyL_01.png
@@ -66,7 +69,7 @@ Sprite		FishBones	FallingFishBones	0 0 0 0
 Sprite		StrawberryScoop	CaughtStrawberry	0 0 0 0
 Sprite		ChocolateScoop	CaughtChocolate		0 0 0 0
 Sprite		VanillaScoop	CaughtVanilla		0 0 0 0
-
+Sprite		FinishLine	FinishLine		0 0 0 0
 
 #
 # SOUNDS

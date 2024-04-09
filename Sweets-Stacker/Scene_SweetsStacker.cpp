@@ -38,7 +38,13 @@ void Scene_SweetsStacker::init(const std::string& path) {
 	m_end_score_text.setCharacterSize(60);
 	m_end_score_text.setFillColor(sf::Color::White);
 
-	
+	registerAction(sf::Mouse::Left, "MOUSE_CLICK");
+	m_pause_menu.push_back(false);
+	m_pause_menu.push_back(false);
+
+	//if (m_level == 1) {
+	//	spawnFinsihline();
+	//}
 }
 
 void Scene_SweetsStacker::sMovement(sf::Time dt) {
@@ -183,7 +189,7 @@ void Scene_SweetsStacker::checkPlayerState() {
 
 	auto prevPos = tx.pos;
 
-	if (m_lives == 0) {
+	if (m_lives == 0 || m_finished == true) {
 		state = "dead";
 		m_player->removeComponent<CAnimation>();
 
@@ -240,6 +246,8 @@ void Scene_SweetsStacker::sAnimation(sf::Time dt) {
 			//m_player->getComponent<CAnimation>().animation.hasEnded("scoopyDeathLeft")
 			if (m_player->getComponent<CAnimation>().animation.hasEnded() &&
 				dead == "dead") {
+				std::this_thread::sleep_for(std::chrono::seconds(3));
+
 				m_player->destroy();
 
 				onEnd();
@@ -252,7 +260,8 @@ void Scene_SweetsStacker::sRender() {
 
 	m_game->window().setView(m_worldView);
 
-
+	sf::Vector2i mousePos = sf::Mouse::getPosition(m_game->window());
+	sf::Vector2f viewMousePos = m_game->window().mapPixelToCoords(mousePos, m_worldView);
 
 	// draw bkg first
 	for (auto e : m_entityManager.getEntities("bkgtest")) {
@@ -313,6 +322,22 @@ void Scene_SweetsStacker::sRender() {
 			}
 		}
 
+		//if (m_level >= 1) {
+		//	for (auto e : m_entityManager.getEntities("finshline")) {
+		//		if (e->getComponent<CSprite>().has) {
+		//			auto& sprite = e->getComponent<CSprite>().sprite;
+		//			auto& tfm = e->getComponent<CTransform>();
+
+		//			// Set the position and rotation of the sprite
+		//			sprite.setPosition(tfm.pos);
+		//			sprite.setRotation(tfm.angle);
+
+		//			// Draw the sprite using the game window
+		//			m_game->window().draw(sprite);
+		//		}
+		//	}
+		//}
+
 		// draw bounding box
 		if (m_drawAABB) {
 			if (e->hasComponent<CBoundingBox>()) {
@@ -334,6 +359,46 @@ void Scene_SweetsStacker::sRender() {
 					auto& sprite = e->getComponent<CSprite>().sprite;
 					auto& tfm = e->getComponent<CTransform>();
 
+					sprite.setPosition(tfm.pos);
+
+					m_game->window().draw(sprite);
+				}
+			}
+			for (auto e : m_entityManager.getEntities("resume")) {
+				if (e->getComponent<CSprite>().has) {
+					auto& sprite = e->getComponent<CSprite>().sprite;
+					auto& tfm = e->getComponent<CTransform>();
+
+					auto overlap = Physics::getOverlapMouse(viewMousePos, e);
+					if (overlap.x > 0 && overlap.y > 0) {
+						m_pause_menu[0] = true;
+
+						e->addComponent<CBoundingBox>(sprite.getLocalBounds().getSize());
+
+						//sprite.setPosition(210,562);
+					}
+					else {
+						m_pause_menu[0] = false;
+					}
+					sprite.setPosition(tfm.pos);
+
+					m_game->window().draw(sprite);
+
+				}
+			}			
+			
+			for (auto e : m_entityManager.getEntities("quit")) {
+				if (e->getComponent<CSprite>().has) {
+					auto& sprite = e->getComponent<CSprite>().sprite;
+					auto& tfm = e->getComponent<CTransform>();
+					auto overlap = Physics::getOverlapMouse(viewMousePos, e);
+					if (overlap.x > 0 && overlap.y > 0) {
+						m_pause_menu[1] = true;
+						//sprite.setPosition(313, 721);
+					}
+					else {
+						m_pause_menu[1] = false;
+					}
 					sprite.setPosition(tfm.pos);
 
 					m_game->window().draw(sprite);
@@ -366,6 +431,7 @@ void Scene_SweetsStacker::sRender() {
 				}
 			}
 		}
+
 	}
 }
 
@@ -405,6 +471,16 @@ void Scene_SweetsStacker::sDoAction(const Command& action) {
 		}
 	}
 
+	if (action.name() == "MOUSE_CLICK" && m_isPaused) {
+		if (m_pause_menu[0] == true) {
+			m_isPaused = false;
+		}if (m_pause_menu[1] == true) {
+			m_game->quitLevel();
+		}
+		
+	}
+
+
 	// on Key Release
 	else if (action.type() == "END") {
 		if (action.name() == "LEFT" && !m_isPaused && m_player->getComponent<CState>().state != "dead") {
@@ -439,7 +515,7 @@ void Scene_SweetsStacker::checkGround() {
 void Scene_SweetsStacker::spawnPlayer() {
 	auto pos = m_worldView.getSize();
 	pos.x = pos.x / 2.f;
-	pos.y -= 290.f;
+	pos.y -= 199.f;
 
 	auto nosePosRight = m_worldView.getSize();
 	nosePosRight.x = pos.x + 199.f / 2 - (32.f / 2 + 6.f);
@@ -520,7 +596,7 @@ void Scene_SweetsStacker::spawnEnemies(sf::Time dt) {
 
 		// position of spawned scoop
 		enemies->addComponent<CTransform>(spawnPos);
-		enemies->getComponent<CTransform>().vel = sf::Vector2f(0.f, 200.f);
+		enemies->getComponent<CTransform>().vel = m_levelSpeed;
 
 		spawnTimer -= spawnInterval;
 	}
@@ -622,10 +698,32 @@ void Scene_SweetsStacker::spawnCones(sf::Time dt) {
 
 		// position of spawned cone
 		fallingCone->addComponent<CTransform>(spawnPos);
-		fallingCone->getComponent<CTransform>().vel = sf::Vector2f(0.f, 100.f);
+		fallingCone->getComponent<CTransform>().vel = m_levelSpeed;
 
 		spawnTimer -= spawnInterval;
 	}
+}
+
+void Scene_SweetsStacker::spawnFinsihline() {
+
+		std::cout << "finish spawned";
+		auto finshline = m_entityManager.addEntity("finshline");
+		auto& sprite = finshline->addComponent<CSprite>().sprite;
+
+		auto& spriteTex = finshline->addComponent<CSprite>(Assets::getInstance().getTexture("FinishLine")).sprite;
+		sprite.setTexture(Assets::getInstance().getTexture("FinishLine"));
+
+		auto& tfm = finshline->getComponent<CTransform>();
+
+		// Set position and rotation
+		tfm.pos = sf::Vector2f(m_worldView.getSize().x / 2, /*300.f*/600.f);
+		tfm.angle = 0.f;
+
+		// Add bounding box component
+		auto spriteSize = sprite.getLocalBounds().getSize();
+		finshline->addComponent<CBoundingBox>(spriteSize);
+	
+
 }
 
 void Scene_SweetsStacker::spawnStrawberry() {
@@ -782,6 +880,18 @@ void Scene_SweetsStacker::sCollisions() {
 	auto& playerNose = m_entityManager.getEntities("playerNose");
 	auto& enemies = m_entityManager.getEntities("enemies");
 	auto& cone = m_entityManager.getEntities("cone");
+	auto& finishline = m_entityManager.getEntities("finshline");
+
+	for (auto& pN : playerNose) {
+		for (auto& f : finishline) {
+			auto overlap = Physics::getOverlap(pN, f);
+			if (overlap.x > 0 && overlap.y > 0) {
+				m_finished = true;
+				checkPlayerState();
+
+			}
+		}
+	}
 
 
 	for (auto p : player) {
@@ -957,14 +1067,32 @@ void Scene_SweetsStacker::sCollisions() {
 
 void Scene_SweetsStacker::sCheckLevel() {
 	if(m_level > m_prevLevel) {
-		auto iceCream = m_entityManager.getEntities("iceCream");
+		auto& iceCream = m_entityManager.getEntities("iceCream");
+		auto& enemies = m_entityManager.getEntities("enemies");
+		auto& cone = m_entityManager.getEntities("cone");
 
 		for (auto& i : iceCream) {
 			auto& transformComponent = i->getComponent<CTransform>();
-			m_levelSpeed =	transformComponent.vel += sf::Vector2f(0.f,50.f); // Assuming vel is a vector type
+			m_levelSpeed =	transformComponent.vel += sf::Vector2f(0.f,50.f);
 		}
 
+		for (auto& e : enemies) {
+			auto& transformComponent = e->getComponent<CTransform>();
+			m_levelSpeed = transformComponent.vel += sf::Vector2f(0.f, 50.f);
+		}
+
+		for (auto& c : cone) {
+			auto& transformComponent = c->getComponent<CTransform>();
+			m_levelSpeed = transformComponent.vel += sf::Vector2f(0.f, 50.f);
+		}
+
+
 		m_prevLevel = m_level; // Update previousLevel after processing the increase
+	}
+
+	if (m_level == 1 && m_finishLineSpawned == false) {
+		spawnFinsihline();
+		m_finishLineSpawned = true;
 	}
 }
 
@@ -996,6 +1124,7 @@ void Scene_SweetsStacker::onEnd() {
 	m_game->quitLevel();
 	//m_game->changeScene("MENU", nullptr, false);
 	m_lives = 3;
+	m_level = 0;
 }
 
 void Scene_SweetsStacker::sRespawnLifeSprites() {
@@ -1128,6 +1257,58 @@ void Scene_SweetsStacker::loadLevel(const std::string& path) {
 			sprite.setOrigin(0.f, 0.f);
 			sprite.setPosition(pos);
 		}
+		else if (token == "Resume") {
+			std::string name;
+			sf::Vector2f pos;
+			config >> name >> pos.x >> pos.y;
+			auto e = m_entityManager.addEntity("resume");
+			e->addComponent<CType>().MENU = true;
+			//e->addComponent<CTransform>(pos);
+
+			auto& sprite = e->addComponent<CSprite>(Assets::getInstance().getTexture(name)).sprite;
+			//e->addComponent<CBoundingBox>(sprite.getLocalBounds().getSize());
+			//sprite.setOrigin(0.f, 0.f);
+			//sprite.setPosition(210, 562);
+			//sprite.setPosition(pos);
+			auto spriteSize = sprite.getLocalBounds().getSize();
+
+			e->addComponent<CBoundingBox>(spriteSize);
+			sf::Vector2f spriteOrigin = sprite.getOrigin();
+
+			sf::Vector2f boundingBoxPosition = pos + spriteOrigin;
+
+			e->addComponent<CTransform>(boundingBoxPosition);
+		}
+		else if (token == "Quit") {
+			std::string name;
+			sf::Vector2f pos;
+			config >> name >> pos.x >> pos.y;
+			auto e = m_entityManager.addEntity("quit");
+			e->addComponent<CType>().MENU = true;
+
+			auto& sprite = e->addComponent<CSprite>(Assets::getInstance().getTexture(name)).sprite;
+			auto spriteSize = sprite.getLocalBounds().getSize();
+
+			e->addComponent<CBoundingBox>(spriteSize);
+			sf::Vector2f spriteOrigin = sprite.getOrigin();
+
+			sf::Vector2f boundingBoxPosition = pos + spriteOrigin;
+
+			e->addComponent<CTransform>(boundingBoxPosition);
+
+		}
+		//else if (token == "FinishLine") {
+		//	std::string name;
+		//	sf::Vector2f pos;
+		//	config >> name >> pos.x >> pos.y;
+		//	auto e = m_entityManager.addEntity("finsh");
+		//	//e->addComponent<CTransform>(pos);
+
+		//	auto& sprite = e->addComponent<CSprite>(Assets::getInstance().getTexture(name)).sprite;
+
+		//	//sprite.setOrigin(0.f, 0.f);
+		//	//sprite.setPosition(pos);
+		//}
 		//else if (token == "Player") {
 		//	config >>
 		//		m_playerConfig.X >>

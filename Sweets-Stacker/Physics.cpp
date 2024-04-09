@@ -70,6 +70,30 @@ sf::Vector2f Physics::getOverlap(std::shared_ptr<Entity> a, std::shared_ptr<Enti
     return overlap;
 }
 
+sf::Vector2f Physics::getOverlapMouse(sf::Vector2f a, std::shared_ptr<Entity> b)
+{
+    sf::Vector2f overlap(0.f, 0.f);
+
+    auto btx = b->getComponent<CTransform>();
+    auto bbb = b->getComponent<CBoundingBox>();
+
+    if (btx.has && bbb.has)
+    {
+        float dx = std::abs(a.x - btx.pos.x);
+        float dy = std::abs(a.y - btx.pos.y);
+
+        float overlapX = bbb.halfSize.x - dx;
+        float overlapY = bbb.halfSize.y - dy;
+
+        overlapX = std::max(overlapX, 0.f);
+        overlapY = std::max(overlapY, 0.f);
+
+        overlap = sf::Vector2f(overlapX, overlapY);
+    }
+
+    return overlap;
+}
+
 sf::Vector2f Physics::getPreviousOverlap(std::shared_ptr<Entity> a, std::shared_ptr<Entity> b)
 {
     sf::Vector2f overlap(0.f, 0.f);
