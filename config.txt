@@ -2,14 +2,12 @@
 
 Window  800 1200
 
-Font    Arial           ../assets/fonts/arial.ttf
-Font    main            ../assets/fonts/Sansation.ttf
-Font    Arcade          ../assets/fonts/arcadeclassic.regular.ttf
+Font    Arial           ../assetsNew/fonts/arial.ttf
+Font    main            ../assetsNew/fonts/Sansation.ttf
+Font    Arcade          ../assetsNew/fonts/arcadeclassic.regular.ttf
 Font 	Menu		../assetsNew/fonts/Honk.ttf
 Font    Score		../assetsNew/fonts/Bungee.ttf
 
-Music gameTheme         ../assets/Music/frogger.ogg
-Music missionTheme      ../assets/Music/tweener.ogg
 
 #Sounds
 Sound splat		../assetsNew/Sounds/splat.wav
@@ -25,6 +23,7 @@ Texture	BackgroundControls	../assetsNew/Textures/backgroundctrls2.png
 Texture	BackgroundCredits	../assetsNew/Textures/backgroundCredits2.png
 Texture PausedScreen		../assetsNew/Textures/PauseScreen.png
 Texture EndScreen		../assetsNew/Textures/EndScreen.png
+Texture WinScreen		../assetsNew/Textures/WinScreen.png
 Texture Quit			../assetsNew/Textures/Quit.png
 Texture Resume			../assetsNew/Textures/Resume.png
 
@@ -71,9 +70,6 @@ Sprite		ChocolateScoop	CaughtChocolate		0 0 0 0
 Sprite		VanillaScoop	CaughtVanilla		0 0 0 0
 Sprite		FinishLine	FinishLine		0 0 0 0
 
-#
-# SOUNDS
-
 
 JSON                    ../assetsNew/Textures/scoopy_walk_right_atlas.json
 JSON                    ../assetsNew/Textures/scoopy_walk_left_atlas.json
@@ -83,7 +79,7 @@ JSON			../assetsNew/Textures/scoopy_death_right_atlas.json
 #
 #  Animation    Name            	Texture     	 Speed   Repeats
 
-Animation       ScoopyWalkRight    	ScoopyWalkR	  12     no
-Animation	ScoopyWalkLeft		ScoopyWalkL       12     no
+Animation       ScoopyWalkRight    	ScoopyWalkR	  4     yes
+Animation	ScoopyWalkLeft		ScoopyWalkL       4     yes
 Animation	scoopyDeathLeft		ScoopyDeathL	  1      no
 Animation	scoopyDeathRight	ScoopyDeathR	  1      no

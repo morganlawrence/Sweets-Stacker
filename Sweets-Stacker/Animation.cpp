@@ -19,8 +19,6 @@ Animation::Animation(const std::string& name,
     , m_sprite(t, m_frames[0])
 {
     centerOrigin(m_sprite);
-
-    std::cout << name << " tpf: " << m_timePerFrame.asMilliseconds() << "ms\n";
 }
 
 
@@ -31,8 +29,9 @@ void Animation::update(sf::Time dt) {
         m_countDown = m_timePerFrame;
         m_currentFrame += 1;
 
-        if (m_currentFrame == m_frames.size() && !m_isRepeating)
-            return;  // on the last frame of non-repeating animaton, leave it
+        if (m_currentFrame == m_frames.size() && !m_isRepeating) {
+             return;  // on the last frame of non-repeating animaton, leave it
+        }
         else
             m_currentFrame = (m_currentFrame % m_frames.size());
 

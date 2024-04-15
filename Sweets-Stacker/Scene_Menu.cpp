@@ -22,7 +22,7 @@ Scene_Menu::Scene_Menu(GameEngine* gameEngine)
 	init();
 
 	MusicPlayer::getInstance().play("gameTheme");
-	MusicPlayer::getInstance().setVolume(10);
+	MusicPlayer::getInstance().setVolume(20);
 }
 
 void Scene_Menu::registerActions() {
@@ -31,6 +31,7 @@ void Scene_Menu::registerActions() {
 	registerAction(sf::Keyboard::S, "DOWN");
 	registerAction(sf::Keyboard::Down, "DOWN");
 	registerAction(sf::Keyboard::D, "PLAY");
+	registerAction(sf::Keyboard::Enter, "PLAY");
 	registerAction(sf::Keyboard::Escape, "QUIT");
 
 }
@@ -47,6 +48,8 @@ void Scene_Menu::init()
 
 	m_menuStrings.push_back("Credits");
 	m_levelPaths.push_back("../assetsNew/level3.txt");
+
+	m_menuStrings.push_back("Exit");
 
 	// Title Text
 	m_menuTitle.setFont(Assets::getInstance().getFont("Menu"));
@@ -73,10 +76,10 @@ void Scene_Menu::init()
 	m_menuFooter.setFont(Assets::getInstance().getFont("main"));
 	m_menuFooter.setCharacterSize(20);
 	m_menuFooter.setFillColor(sf::Color::White);
-	m_menuFooter.setString("UP: W    DOWN: S   PLAY:D    QUIT: ESC");
+	m_menuFooter.setString("UP: W    DOWN: S   PLAY:D/ENTER    QUIT: ESC");
 	
 	centerOrigin(m_menuFooter);
-	m_menuFooter.setPosition(m_game->window().getSize().x / 2.f, 800);
+	m_menuFooter.setPosition(m_game->window().getSize().x / 2.f, 850);
 }
 
 void Scene_Menu::update(sf::Time dt)
@@ -130,18 +133,6 @@ void Scene_Menu::sDoAction(const Command& action)
 		{
 			m_menuIndex = (m_menuIndex + 1) % m_menuStrings.size();
 		}
-		//else if (action.name() == "PLAY" && m_menuIndex == 0)
-		//{
-		//	m_game->changeScene("PLAY", std::make_shared<Scene_SweetsStacker>(m_game, m_levelPaths[m_menuIndex]));
-		//}
-		//else if (action.name() == "PLAY" && m_menuIndex == 1)
-		//{
-		//	m_game->changeScene("PLAY", std::make_shared<Scene_Controls>(m_game, m_levelPaths[m_menuIndex]));
-		//}
-		//else if (action.name() == "PLAY" && m_menuIndex == 2)
-		//{
-		//	m_game->changeScene("PLAY", std::make_shared<Scene_Controls>(m_game, m_levelPaths[m_menuIndex]));
-		//}
 		else if (action.name() == "PLAY")
 		{
 			if (m_menuIndex == 0) {
@@ -152,6 +143,9 @@ void Scene_Menu::sDoAction(const Command& action)
 			}
 			else if (m_menuIndex == 2) {
 				m_game->changeScene("PLAY", std::make_shared<Scene_Credits>(m_game, m_levelPaths[m_menuIndex]));
+			}
+			else if (m_menuIndex == 3) {
+				onEnd();
 			}
 		}
 		else if (action.name() == "QUIT")

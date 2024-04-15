@@ -21,13 +21,7 @@ void Scene_Controls::registerActions() {
 }
 
 void Scene_Controls::init() {
-	m_optionsFooter.setFont(Assets::getInstance().getFont("main"));
-	m_optionsFooter.setCharacterSize(20);
-	m_optionsFooter.setFillColor(sf::Color::White);
-	m_optionsFooter.setString("BACK TO MENU: ESC");
 
-	centerOrigin(m_optionsFooter);
-	m_optionsFooter.setPosition(m_game->window().getSize().x / 2.f + 15, 800);
 }
 
 void Scene_Controls::sRender()
@@ -41,7 +35,6 @@ void Scene_Controls::sRender()
 		}
 	}
 
-	m_game->window().draw(m_optionsFooter);
 
 }
 

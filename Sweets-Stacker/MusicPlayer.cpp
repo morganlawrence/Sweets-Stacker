@@ -7,7 +7,6 @@
 
 
 MusicPlayer::MusicPlayer() {
-    //m_filenames["menuTheme"] = "../assets/Music/dp_progger.flac";
     m_filenames["gameTheme"] = "../assetsNew/Music/dp_summer.flac";
 }
 

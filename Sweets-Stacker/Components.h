@@ -115,6 +115,8 @@ struct CInput : public Component
     bool DOWN{ false };
     bool JUMP{ true };
 
+    bool ISMOVING{ false };
+
     unsigned char dir{ 0 };
 
     CInput() = default;

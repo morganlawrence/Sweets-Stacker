@@ -44,9 +44,14 @@ private:
     int             m_level{ 0 };
     int             m_prevLevel{ 0 };
     sf::Vector2f    m_levelSpeed{0.f,100.f};
+
+    // seconds increament 
+    sf::Time        m_scoopInterval = sf::seconds(3);
+    sf::Time        m_enemyInterval = sf::seconds(7);
+    sf::Time        m_coneInterval = sf::seconds(10);
+
     bool            m_finishLineSpawned{false};
     bool            m_finished{ false };
-
     bool			m_drawTextures{ true };
     bool			m_drawAABB{ false };
     bool			m_drawGrid{ false };
@@ -58,7 +63,6 @@ private:
     void            sAnimation(sf::Time dt);
     void            sRespawnEntities(sf::Time dt);
     void            sUpdateLifeSprites();
-    void            sRespawnLifeSprites();
     void            sLifespan(sf::Time dt);
     void            sCheckLevel();
 
@@ -69,26 +73,25 @@ private:
     void            adjustPlayerPosition();
     void            checkGround();
     void            checkPlayerState();
+    bool            checkGameOverState();
     void	        registerActions();
 
     void            spawnPlayer();
     void            spawnScoops(sf::Time dt);
     void            spawnEnemies(sf::Time dt);
     void            spawnCones(sf::Time dt);
-    void            spawnFinsihline();
-    //void            spawnEntities(sf::Time dt, const std::string& entityType, float spawnInterval);
+    void            spawnFinishline();
 
     void            spawnStrawberry();
     void            spawnChocolate();
     void            spawnVanilla();
     void            clearStack();
+    void            playRandomBark();
 
     void            init(const std::string& path);
     void            loadLevel(const std::string& path);
     sf::FloatRect   getViewBounds();
     sf::FloatRect   getOutOfBounds() const;
-    // sf::View   getOutOfBounds() const;
-
 
 public:
 

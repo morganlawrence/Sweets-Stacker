@@ -20,13 +20,7 @@ void Scene_Credits::registerActions() {
 }
 
 void Scene_Credits::init() {
-	m_creditsFooter.setFont(Assets::getInstance().getFont("main"));
-	m_creditsFooter.setCharacterSize(20);
-	m_creditsFooter.setFillColor(sf::Color::White);
-	m_creditsFooter.setString("BACK TO MENU: ESC");
 
-	centerOrigin(m_creditsFooter);
-	m_creditsFooter.setPosition(m_game->window().getSize().x / 2.f + 15, 800);
 }
 
 void Scene_Credits::sRender()
@@ -40,7 +34,6 @@ void Scene_Credits::sRender()
 		}
 	}
 
-	m_game->window().draw(m_creditsFooter);
 
 }
 

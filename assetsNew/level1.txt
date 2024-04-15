@@ -9,3 +9,4 @@ Paused 		PausedScreen	0   0
 Quit		Quit		313 721
 Resume		Resume		210 562
 GameOver	EndScreen	0   0
+GameOverWin	WinScreen	0   0
